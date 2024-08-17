@@ -1,8 +1,6 @@
 # ---------------------------------------------------------------------------------------------------------------------
 # COMMON TERRAGRUNT CONFIGURATION
-# This is the common component configuration for mysql. The common variables for each environment to
-# deploy mysql are defined here. This configuration will be merged into the environment configuration
-# via an include block.
+# The common variables for each environment to be specified here.
 # ---------------------------------------------------------------------------------------------------------------------
 
 # Terragrunt will copy the Terraform configurations specified by the source parameter, along with any files in the

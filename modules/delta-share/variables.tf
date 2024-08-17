@@ -1,4 +1,4 @@
-variable "multishares" {
+variable "shares" {
   type = map(object({
     comment = string
     owner = string

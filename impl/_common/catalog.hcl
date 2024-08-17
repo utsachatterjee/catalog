@@ -8,7 +8,8 @@
 # needs to deploy a different module version, it should redefine this block with a different ref to override the
 # deployed version.
 terraform {
-  source = "C:/Users/utsa.chatterjee/Downloads/Repo/databricks/modules/delta-recipient"
+  #source = "${get_path_to_repo_root()}/modules/catalog"  //Use this while using cloud remote backend
+  source = "C:/Users/utsa.chatterjee/Downloads/Repo/databricks/modules/catalog"
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -21,6 +22,15 @@ locals {
 # ---------------------------------------------------------------------------------------------------------------------
 # dependencies
 # ---------------------------------------------------------------------------------------------------------------------
+dependency "catalog_external_locaton" {
+  config_path = "../catalog_external_locaton"
+  mock_outputs = {
+    storage_root        = "abfss://[user]@[host]/[path]"
+    backup_storage_root = "abfss://[user]@[host]/[path]"
+  }
+  mock_outputs_allowed_terraform_commands = ["init", "validate", "plan"]
+  mock_outputs_merge_strategy_with_state = "shallow"
+}
 
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -30,4 +40,43 @@ locals {
 # The below can be removed if you set vnet_needed to false in an env.hcl
 # ---------------------------------------------------------------------------------------------------------------------
 inputs = {
+  storage_root        = dependency.catalog_external_locaton.outputs.storage_root
+  backup_storage_root = dependency.catalog_external_locaton.outputs.backup_storage_root
+  catalogs = [
+    {
+      name    = "catalogA"
+      comment = "temporary test catalog"
+      grants = [
+        {
+          principal  = "databricks-Account-grp-1"                         // use group and not an user email
+          privileges = ["USE_CATALOG", "USE_SCHEMA", "EXECUTE", "SELECT"] // ALL_PRIVILEGES should not be used for non admin group
+        },
+        {
+          principal  = "databricks-Account-grp-2"
+          privileges = ["<add accordingly>"]
+        }
+      ]
+      force_destroy = false
+    },
+    {
+      name    = "catalogB"
+      comment = "temporary test catalog"
+      grants = [
+        {
+          principal  = "databricks-Account-grp-1"
+          privileges = ["USE_CATALOG", "USE_SCHEMA", "EXECUTE", "SELECT"]
+        },
+        {
+          principal  = "databricks-Account-grp-2"
+          privileges = ["<add accordingly>"]
+        }
+      ]
+      force_destroy = false
+    }
+  ]
+
+  tags = {
+    resource-owner = "Utsa Chatterjee"
+    contact-info   = "utsachatterjee89@gmail.com"
+  }
 }

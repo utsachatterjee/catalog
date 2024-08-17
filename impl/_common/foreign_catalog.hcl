@@ -8,7 +8,7 @@
 # needs to deploy a different module version, it should redefine this block with a different ref to override the
 # deployed version.
 terraform {
-  source = "C:/Users/utsa.chatterjee/Downloads/Repo/databricks/modules/delta-recipient"
+  source = "C:/Users/utsa.chatterjee/Downloads/Repo/databricks/modules/foreign_catalog"
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -21,6 +21,13 @@ locals {
 # ---------------------------------------------------------------------------------------------------------------------
 # dependencies
 # ---------------------------------------------------------------------------------------------------------------------
+dependency "connection" {
+  config_path = "../connection"
+  mock_outputs = {
+    connections = { name = "1" }
+  }
+  mock_outputs_allowed_terraform_commands = ["init", "validate", "plan"]
+}
 
 
 # ---------------------------------------------------------------------------------------------------------------------

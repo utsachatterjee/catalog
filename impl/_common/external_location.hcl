@@ -8,7 +8,7 @@
 # needs to deploy a different module version, it should redefine this block with a different ref to override the
 # deployed version.
 terraform {
-  source = "C:/Users/utsa.chatterjee/Downloads/Repo/databricks/modules/delta-recipient"
+  source = "C:/Users/utsa.chatterjee/Downloads/Repo/databricks/modules/external_location"
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -21,7 +21,6 @@ locals {
 # ---------------------------------------------------------------------------------------------------------------------
 # dependencies
 # ---------------------------------------------------------------------------------------------------------------------
-
 
 # ---------------------------------------------------------------------------------------------------------------------
 # MODULE PARAMETERS

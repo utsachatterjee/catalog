@@ -1,6 +1,6 @@
 locals {
   multisharesmap = flatten([
-    for id, val in var.multishares : [
+    for id, val in var.shares : [
       for k, objs in val.objects :
         {
           index = objs.catalog

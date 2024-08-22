@@ -73,6 +73,21 @@ inputs = {
       ]
       force_destroy = false
     }
+    {
+      name    = "insights"
+      comment = "Catalog for Azure Insights logs and metrics"
+      grants = [
+        {
+          principal  = "GRP_DBx_data_services_developers"
+          privileges = ["USE_CATALOG", "USE_SCHEMA", "EXECUTE", "CREATE_TABLE", "WRITE_VOLUME", "READ_VOLUME", "SELECT"]
+        },
+        {
+          principal  = "GRP_data_services_deployments"
+          privileges = ["USE_CATALOG", "USE_SCHEMA", "READ_VOLUME", "SELECT"]
+        }
+      ]
+      force_destroy = false
+    }
   ]
 
   tags = {

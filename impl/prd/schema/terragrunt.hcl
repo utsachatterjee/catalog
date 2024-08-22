@@ -51,6 +51,22 @@ inputs = {
       ]
       force_destroy = false
     }
+    {
+      name         = "postgresql"
+      catalog_name = dependency.catalogs.outputs.catalogs["insights"]
+      comment      = "Schema for postgresql Azure Insights logs and metrics"
+      grants = [
+        {
+          principal  = "GRP_data_services_deployments"                                                    // must be a group and not an user email
+          privileges = ["USE_SCHEMA", "EXECUTE", "SELECT", "READ_VOLUME", "WRITE_VOLUME", "CREATE_TABLE"] // ALL_PRIVILEGES is not allowed
+        },
+        {
+          principal  = "GRP_DBx_data_services_developers"
+          privileges = ["USE_SCHEMA", "SELECT", "READ_VOLUME"] // ALL_PRIVILEGES is not allowed
+        }
+      ]
+      force_destroy = false
+    }
   ]
 
   tags = {

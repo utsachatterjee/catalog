@@ -37,6 +37,19 @@ inputs = {
         }
       ]
     }
+    postgresqllogs = {
+      name = "center_logs"
+      url = {
+        sbx = "abfss://<container2>@<storageaccountname>.dfs.core.windows.net/resourceId=/SUBSCRIPTIONS/<subscriptionid>/RESOURCEGROUPS/<resourscegrpname>/PROVIDERS/MICROSOFT.DBFORPOSTGRESQL/FLEXIBLESERVERS/<postgresservername>"
+      }
+      comment = "location of insight logs from azure monitoring"
+      grants = [
+        {
+          principal  = "databricks-Account-grp-1"
+          privileges = ["READ_FILES", "WRITE_FILES", "CREATE_EXTERNAL_VOLUME", "CREATE_EXTERNAL_TABLE"]
+        }
+      ]
+    }
   }
 
   tags = {
